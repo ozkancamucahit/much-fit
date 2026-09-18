@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Folder Include="Extensions/" />
+    <Folder Include="Extensions/Consul/" />
+    <Folder Include="Extensions/Observability/" />
+    <Folder Include="Extensions/Pulsar/" />
+    <Folder Include="Extensions/Redis/" />
+    <Folder Include="Extensions/Serilog/" />
+    <Folder Include="Extensions/Yarp/" />
+    <Folder Include="Interfaces/" />
+    <Folder Include="Interfaces/Messaging/" />
+    <Folder Include="Interfaces/Streaming/" />
+    <Folder Include="Mvc/" />
+    <Folder Include="Options/" />
+    <Folder Include="Streaming/" />
+    <Folder Include="Streaming/Redis/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.StackExchange.Redis" />
+    <PackageReference Include="DotPulsar" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Steeltoe.Discovery.Consul" />
+    <PackageReference Include="Yarp.ReverseProxy" />
+  </ItemGroup>
+
+</Project>

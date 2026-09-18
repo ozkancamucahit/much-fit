@@ -1,0 +1,14 @@
+[tools]
+bun = "1.4"
+dotnet = "10"
+node = "24"
+uv = "latest"
+
+[tasks.ssl-gen-rsa-private]
+description="generate private pem with openssl"
+run="openssl genrsa -out jwt-private.pem 2048"
+
+[tasks.ssl-gen-rsa-public]
+description="generate public pem with openssl"
+run_windows="openssl rsa -in backend\\jwt-private.pem -pubout -out backend\\src\\Shared\\Keys\\jwt-public.pem"
+run="openssl rsa -in jwt-private.pem -pubout -out src/Shared/Keys/jwt-public.pem"
