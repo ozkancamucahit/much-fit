@@ -15,6 +15,7 @@
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/Central.Common.Lib/Central.Common.Lib.csproj" />
     <Project Path="src/Shared/Platform.Auth/Platform.Auth.csproj" />
+    <Project Path="src/Shared/Platform.Web/Platform.Web.csproj" />
   </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/aspire/">

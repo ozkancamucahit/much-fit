@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog.Context;
 
 namespace Central.Common.Lib.Extensions.Observability;
 
 public static class Extensions
 {
-  private const string CorrelationIdKey = "correlation-id";
+  public const string CorrelationIdKey = "x-correlation-id";
 
   public static IApplicationBuilder UseCorrelationId(this IApplicationBuilder app)
       => app.Use(async (ctx, next) =>
@@ -20,7 +21,10 @@ public static class Extensions
         }
 
         ctx.Items[CorrelationIdKey] = correlationId.ToString();
-        await next();
+        ctx.Response.Headers[CorrelationIdKey] = correlationId;
+        ctx.Request.Headers[CorrelationIdKey] = correlationId;
+        using (LogContext.PushProperty("CorrelationId", correlationId))
+          await next();
       });
 
   public static string? GetCorrelationId(this HttpContext context)
