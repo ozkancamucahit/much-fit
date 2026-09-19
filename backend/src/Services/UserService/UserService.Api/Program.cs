@@ -66,6 +66,12 @@ builder.Services.AddControllers()
     options.DataAnnotationLocalizerProvider = (type, factory) =>
       factory.Create(typeof(SharedResource));
   });
+
+builder
+  .Services
+  .AddScoped<JWTTokenService>();
+
+
 builder.Services.AddOpenApi();
 
 
