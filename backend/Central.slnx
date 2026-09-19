@@ -17,9 +17,14 @@
     <Project Path="src/Shared/Platform.Auth/Platform.Auth.csproj" />
     <Project Path="src/Shared/Platform.Web/Platform.Web.csproj" />
   </Folder>
+  <Folder Name="/src/" />
   <Folder Name="/src/aspire/">
     <Project Path="src/aspire/Central.AppHost/Central.AppHost.csproj" />
     <Project Path="src/aspire/Central.ServiceDefaults/Central.ServiceDefaults.csproj" />
   </Folder>
   <Folder Name="/tests/" />
+  <Folder Name="/tests/Services/" />
+  <Folder Name="/tests/Services/UserService/">
+    <Project Path="tests/Services/UserService/UserService.Test/UserService.Test.csproj" />
+  </Folder>
 </Solution>
