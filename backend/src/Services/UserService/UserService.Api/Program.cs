@@ -1,18 +1,32 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using UserService.Api.Data;
 using UserService.Api.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+var connectionString = builder.Configuration.GetConnectionString("UserDb");
+ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
 
-builder
-  .Services
-  .AddDbContext<UserDbContext>(options =>
+builder.Services.AddDbContext<UserDbContext>(options =>
+{
+
+  if (!builder.Environment.IsProduction())
   {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("UserDb"));
-  });
+    var connectionBuilder = new NpgsqlConnectionStringBuilder(connectionString)
+    {
+      IncludeErrorDetail = true
+    };
+    connectionString = connectionBuilder.ConnectionString;
+    options.EnableSensitiveDataLogging();
+    options.EnableDetailedErrors();
+  }
+
+  options.UseNpgsql(connectionString);
+});
+
 
 builder
   .Services
@@ -42,6 +56,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapDefaultEndpoints();
+
 
 app.MapGet("/", () => "User service is running :" + app.Environment.EnvironmentName);
 

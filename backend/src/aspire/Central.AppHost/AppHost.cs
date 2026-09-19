@@ -11,7 +11,7 @@ var seq = builder
   .WithDataVolume();
 
 var postgres = builder.RegisterPostgres(machinePort: 5444);
-var productsDB = postgres.AddDatabase("FeedRDB");
+var UserDb = postgres.AddDatabase("UserDb");
 
 var cache = builder
   .AddRedis("cache", port: 6363)
@@ -24,22 +24,19 @@ var cache = builder
   .WithLifetime(ContainerLifetime.Persistent);
 
 
-var (prometheus, grafana) = builder.RegisterMonitoring();
+// var (prometheus, grafana) = builder.RegisterMonitoring();
 
-var userService = builder
-  .AddDockerfile("userservice", "../../../") // Sets repo root as build context
-  .WithDockerfile("src/Services/UserService/UserService.Api/Dockerfile");
+// var userService = builder
+//   .AddDockerfile("userservice", "../../../") // Sets repo root as build context
+//   .WithDockerfile("src/Services/UserService/UserService.Api/Dockerfile");
 
-// var feedR = builder
-//   .AddProject<Projects.UserService_Api>("feedr-api")
-//   .WithHttpEndpoint(port: 8080, name: "http", isProxied: false)
-//   .WithHttpHealthCheck("/health")
-//   .WithEnvironment("ASPNETCORE_ENVIRONMENT", builder.Environment.EnvironmentName)
-//   .WithReference(seq)
-//   .WithReference(productsDB)
-//   .WithReference(cache)
-//   .WaitFor(seq)
-//   .WaitFor(productsDB)
-//   .WaitFor(cache);
+var userApi = builder
+  .AddProject<Projects.UserService_Api>("user-api")
+  .WithHttpEndpoint(port: 8080, name: "http", isProxied: false)
+  .WithHttpHealthCheck("/health")
+  .WithEnvironment("ASPNETCORE_ENVIRONMENT", builder.Environment.EnvironmentName)
+  .WithReference(seq)
+  .WithReference(UserDb)
+  .WaitFor(UserDb);
 
 builder.Build().Run();

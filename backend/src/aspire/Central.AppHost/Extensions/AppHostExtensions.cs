@@ -7,15 +7,15 @@ public static class AppHostExtensions
     ,int machinePort = 5445
     )
   {
-    var username = builder.AddParameter("feedRDBuser", secret: true);
-    var password = builder.AddParameter("feedRDBpass", secret: true);
+    var username = builder.AddParameter("muchFitDBuser", secret: true);
+    var password = builder.AddParameter("muchFitDBpass", secret: true);
 
     var postgres = builder
     .AddPostgres("postgres", username, password)
     .WithEndpoint(name: "postgresendpoint", scheme: "tcp", port: machinePort, targetPort: 5432, isProxied: false)
-    .WithContainerName("feedR-postgres-db")
-    .WithImageTag("17.7")
-    .WithDataVolume("feedRdb-data")
+    .WithContainerName("muchfit-postgres-db")
+    .WithImageTag("18.6-alpine3.24")
+    .WithDataVolume("muchFit-data")
     .WithLifetime(ContainerLifetime.Persistent);
 
     return postgres;
