@@ -33,11 +33,12 @@ public sealed class AuthTest
   public async Task Register_With_Duplicate_Email_Should_Fail()
   {
     var email = $"user{Guid.CreateVersion7():N}@gmail.com";
-    await _client.PostAsJsonAsync("/api/auth/register", new RegisterRequest(email, "Password123!"));
-    var result =
+    var result1 = await _client.PostAsJsonAsync("/api/auth/register", new RegisterRequest(email, "Password123!"));
+    Assert.Equal(HttpStatusCode.OK, result1.StatusCode);
+    var result2 =
       await _client.PostAsJsonAsync("/api/auth/register", new RegisterRequest(email, "Password123!"));
 
-    Assert.Equal(HttpStatusCode.Conflict, result.StatusCode);
+    Assert.Equal(HttpStatusCode.Conflict, result2.StatusCode);
   }
 
   [Fact]

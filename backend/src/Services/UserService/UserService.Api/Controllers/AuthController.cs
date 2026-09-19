@@ -43,6 +43,12 @@ public class AuthController : ControllerBase
       Email = normalizedEmail,
     };
 
+    var userExists = (await _userManager.FindByEmailAsync(normalizedEmail)) is not null;
+    if(userExists)
+    {
+        return Conflict(_localizer["EmailAlreadyRegistered"].Value);
+    }
+
     var result = await _userManager.CreateAsync(user, request.Password.Trim());
 
     if (!result.Succeeded)
