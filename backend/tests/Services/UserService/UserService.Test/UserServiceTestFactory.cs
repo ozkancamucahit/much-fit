@@ -2,7 +2,6 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using UserService.Api.Data;
@@ -22,13 +21,7 @@ public sealed class UserServiceTestFactory
   {
     builder.UseSetting("Jwt:PrivateKeyPem", _testRSA.ExportPkcs8PrivateKeyPem());
     builder.UseSetting("Jwt:PublicKeyPem", _testRSA.ExportSubjectPublicKeyInfoPem());
-    builder.ConfigureAppConfiguration((_, config) =>
-    {
-      config.AddInMemoryCollection(new Dictionary<string, string?>
-      {
-        ["ConnectionStrings:UserDb"] = connectionString,
-      });
-    });
+    builder.UseSetting("ConnectionStrings:UserDb", connectionString);
     base.ConfigureWebHost(builder);
   }
 
@@ -36,6 +29,12 @@ public sealed class UserServiceTestFactory
   {
     using var scope = Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+    var databaseName = db.Database.GetDbConnection().Database;
+
+    Assert.True(
+      databaseName.StartsWith("UserDb_test", StringComparison.Ordinal),
+      $"Test database '{databaseName}' must use the isolated 'UserDb_test' prefix.");
+
     await db.Database.MigrateAsync().ConfigureAwait(false);
   }
 
