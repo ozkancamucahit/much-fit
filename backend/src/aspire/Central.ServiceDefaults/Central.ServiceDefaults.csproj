@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Central.Common.Lib/Central.Common.Lib.csproj" />
+    <ProjectReference Include="../../Shared/Central.Common.Lib/Central.Common.Lib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

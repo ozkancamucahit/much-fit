@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <UserSecretsId>much-fit</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Auth\" />
+    <Folder Include="Contracts\" />
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="Entities\" />
@@ -24,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\aspire\Central.ServiceDefaults\Central.ServiceDefaults.csproj" />
     <ProjectReference Include="..\..\..\Shared\Central.Common.Lib\Central.Common.Lib.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Platform.Web\Platform.Web.csproj" />
   </ItemGroup>
 
 </Project>

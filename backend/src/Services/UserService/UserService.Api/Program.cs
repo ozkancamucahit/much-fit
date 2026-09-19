@@ -38,11 +38,11 @@ if (app.Environment.IsDevelopment())
   app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
 app.MapDefaultEndpoints();
+
+app.MapGet("/", () => "User service is running :" + app.Environment.EnvironmentName);
 
 app.Run();

@@ -1,0 +1,21 @@
+# Build output and IDE files
+**/.vs
+**/.vscode
+**/*.user
+**/bin
+**/obj
+**/out
+
+# Version control and docker files
+.git
+.gitignore
+docker-compose*.yml
+**/Dockerfile*
+
+# Test projects & documentation
+tests/
+*.md
+
+# OS temp files
+.DS_Store
+Thumbs.db
