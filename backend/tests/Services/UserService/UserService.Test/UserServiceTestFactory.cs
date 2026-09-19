@@ -46,7 +46,15 @@ public sealed class UserServiceTestFactory
       var db = scope.ServiceProvider.GetRequiredService<UserDbContext>();
       await db.Database.EnsureDeletedAsync().ConfigureAwait(false);
     }
-    _testRSA.Dispose();
     await base.DisposeAsync().ConfigureAwait(false);
+  }
+
+  protected override void Dispose(bool disposing)
+  {
+    if (disposing)
+    {
+      _testRSA?.Dispose();
+    }
+    base.Dispose(disposing);
   }
 }
