@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Central.Common.Lib/Central.Common.Lib.csproj" IsAspireProjectResource="false" />
-    <ProjectReference Include="../Central.ServiceDefaults/Central.ServiceDefaults.csproj" IsAspireProjectResource="false" />
     <ProjectReference Include="..\..\Services\UserService\UserService.Api\UserService.Api.csproj" />
+    <ProjectReference Include="..\..\Shared\Central.Common.Lib\Central.Common.Lib.csproj" IsAspireProjectResource="false"/>
+    <ProjectReference Include="..\Central.ServiceDefaults\Central.ServiceDefaults.csproj" IsAspireProjectResource="false"/>
   </ItemGroup>
 
   <ItemGroup>
