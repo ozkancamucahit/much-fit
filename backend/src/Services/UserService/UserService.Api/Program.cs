@@ -80,10 +80,21 @@ builder.Services.AddOpenApi();
 
 
 var app = builder.Build();
+var startupLogger = app.Services.GetRequiredService<ILogger<Program>>();
 
 if (app.Environment.IsDevelopment())
 {
   app.MapOpenApi();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+  var db = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+  var pending = await db.Database.GetPendingMigrationsAsync();
+  if (pending.Any())
+    startupLogger.LogCritical(
+        "Database migrations are pending: {PendingMigrations}",
+        string.Join(", ", pending));
 }
 
 app
