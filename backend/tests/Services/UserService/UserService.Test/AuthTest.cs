@@ -46,7 +46,7 @@ public sealed class AuthTest
   {
     var email = $"user{Guid.CreateVersion7():N}@gmail.com";
     var payload = new RegisterRequest(email, "Password123!");
-    await _client.PostAsJsonAsync("/api/auth/register", new RegisterRequest(email, "Password123!"));
+    await _client.PostAsJsonAsync("/api/auth/register", payload);
     var result =
       await _client.PostAsJsonAsync("/api/auth/login", payload);
 
