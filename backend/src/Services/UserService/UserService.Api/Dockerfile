@@ -51,7 +51,7 @@ COPY --chown=app:app --from=builder /app/publish .
 # allowing Kubernetes / Docker orchestrators to verify the app is healthy.
 # Pin the package version to avoid non-deterministic rebuilds and satisfy image linting.
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl=8.5.0-2ubuntu10.4 && \
+    apt-get install -y --no-install-recommends curl=8.5.0-2ubuntu10.13 && \
     rm -rf /var/lib/apt/lists/*
 
 # Port 8080: non-root users cannot bind to ports below 1024
