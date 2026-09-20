@@ -1,6 +1,11 @@
 # Build output and IDE files
 **/.vs
 **/.vscode
+**/.aspire
+**/.claude
+**/.github
+**/.idea
+**/.opencode
 **/*.user
 **/bin
 **/obj
