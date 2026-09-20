@@ -39,4 +39,11 @@ var userApi = builder
   .WithReference(UserDb)
   .WaitFor(UserDb);
 
+var gateway = builder
+  .AddProject<Projects.ApiGateway_Api>("gateway-api")
+  .WithHttpEndpoint(port: 8089, name: "http", isProxied: false)
+  .WithHttpHealthCheck("/health")
+  .WithEnvironment("ASPNETCORE_ENVIRONMENT", builder.Environment.EnvironmentName)
+  .WithReference(userApi);
+
 builder.Build().Run();

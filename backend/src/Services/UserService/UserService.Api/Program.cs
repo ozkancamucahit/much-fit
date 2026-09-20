@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Platform.Web;
 using Platform.Web.Extensions;
+using Serilog;
+using Serilog.Events;
 using UserService.Api;
 using UserService.Api.Auth;
 using UserService.Api.Data;
@@ -86,6 +88,15 @@ if (app.Environment.IsDevelopment())
 
 app
   .UseCorrelationId()
+  .UseSerilogRequestLogging(options =>
+  {
+    options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+      diagnosticContext.Set("CorrelationId", httpContext.GetCorrelationId());
+    options.GetLevel = (httpContext, _, _) =>
+      httpContext.Request.Path.StartsWithSegments("/health") || httpContext.Request.Path.StartsWithSegments("/alive")
+        ? LogEventLevel.Debug
+        : LogEventLevel.Information;
+  })
   .UseExceptionHandler()
   .UseRateLimiter();
 

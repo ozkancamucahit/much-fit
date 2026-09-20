@@ -9,6 +9,9 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/ApiGateway/">
+    <Project Path="src/Services/ApiGateway/ApiGateway.Api/ApiGateway.Api.csproj" />
+  </Folder>
   <Folder Name="/src/Services/UserService/">
     <Project Path="src/Services/UserService/UserService.Api/UserService.Api.csproj" />
   </Folder>
