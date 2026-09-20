@@ -47,12 +47,24 @@ WORKDIR /app
 # Copy only the published output from the builder stage (everything else is discarded)
 COPY --chown=app:app --from=builder /app/publish .
 
+# Install curl for the runtime health probe. This keeps the image lean while
+# allowing Kubernetes / Docker orchestrators to verify the app is healthy.
+# Pin the package version to avoid non-deterministic rebuilds and satisfy image linting.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl=8.5.0-2ubuntu10.4 && \
+    rm -rf /var/lib/apt/lists/*
+
 # Port 8080: non-root users cannot bind to ports below 1024
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
+
+# Health check for the ASP.NET app. Most .NET apps expose /health via the
+# health checks middleware, which is the standard controller for orchestration.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl --fail --silent http://localhost:8080/health || exit 1
 
 # Switch to the built-in non-root 'app' user (available since .NET 8 aspnet image)
 USER app
 
 # Exec form (JSON array) ensures SIGTERM reaches the .NET process directly for graceful shutdown
-ENTRYPOINT ["dotnet", "UserService.Api.dll"]
+ENTRYPOINT ["dotnet", "UserService.Api.dll"]
